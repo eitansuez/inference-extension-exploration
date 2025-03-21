@@ -1,6 +1,6 @@
 # Understanding the Inference Extension Guide
 
-The GW API inference extension has [a guide] (https://gateway-api-inference-extension.sigs.k8s.io/guides) demonstrating how the extension works.
+The GW API inference extension has [a guide](https://gateway-api-inference-extension.sigs.k8s.io/guides) demonstrating how the extension works.
 
 The idea is to setup in a Kubernetes cluster a mechanism to route traffic to backend LLMs.
 
