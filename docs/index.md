@@ -108,7 +108,7 @@ So I set my manifest to use just one replica.
 k apply -f cpu-deployment.yaml
 ```
 
-It might take 5-10 minutes before the pod is up and running.
+Allow 5-10 minutes before the pod is up and running.
 
 ## Inference Extension CRDs
 
@@ -205,7 +205,7 @@ The model achieves the following:
 1. Any requests specifying the model "tweet-summary" will match this inference model
 1. This model is marked with a `criticality` of Critical
 1. This model is associated with the above inference pool, meaning that matching requests will be routed to our cpu deployment
-1. Through `targetModels` we are configuring which of the two extension models ("tweet-summary-0" or "tweet-summary-1") to target.
+1. Through `targetModels` we are configuring which of the two extension models ("tweet-summary-0" or "tweet-summary-1") to target, or what weight distributions to give to each.
 
 
 ```shell
@@ -223,7 +223,7 @@ I suspect that the name "llama2-7b" is an artifact of perhaps a prior attempt to
 Capture the gateway ip address to the environment variable `GW_IP`:
 
 ```shell
-GW_IP=$(kubectl get gtw inference-gateway -o jsonpath='{.status.addresses[0].value}')
+export GW_IP=$(kubectl get gtw inference-gateway -o jsonpath='{.status.addresses[0].value}')
 ```
 
 Send a request:

@@ -1,7 +1,9 @@
 site_name: Learning the GW API Inference extension
-site_url: https://mydomain.org/mysite
+site_url: https://mydomain.org/
 theme:
   name: material
+  features:
+  - content.code.copy
   palette:
     primary: light blue
 markdown_extensions:
