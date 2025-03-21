@@ -110,7 +110,9 @@ k apply -f cpu-deployment.yaml
 
 Allow 5-10 minutes before the pod is up and running.
 
-## Inference Extension CRDs
+## Inference Extension
+
+### Install the CRDs
 
 The inference extension provides two new resources: [InferencePool](https://gateway-api-inference-extension.sigs.k8s.io/api-types/inferencepool/) and [InferenceModel](https://gateway-api-inference-extension.sigs.k8s.io/api-types/inferencemodel/) for configuring different facets of routing to LLM backends.
 
@@ -120,7 +122,7 @@ The cluster needs to know about these resources:
 k apply -f crds/
 ```
 
-## Install the extension
+### Install the extension
 
 ```yaml title="inference-extension.yaml"
 --8<-- "inference-extension.yaml"
@@ -130,7 +132,7 @@ k apply -f crds/
 k apply -f inference-extension.yaml
 ```
 
-## Hook in the extension
+### Hook in the extension
 
 To hook the extension into the flow of requests through the gateway's `llm-gw` listener on port 8081, we define a ficticious backend and a route to it:
 
@@ -159,7 +161,7 @@ The extension policy achieves two things:
 k apply -f extension-policy.yaml
 ```
 
-## Envoy Patch Policy
+### Envoy Patch Policy
 
 The guide also applies an Envoy patch policy.
 
