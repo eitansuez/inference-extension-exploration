@@ -338,15 +338,25 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inference-extension-crds" class="md-nav__link">
+  <a href="#inference-extension" class="md-nav__link">
     <span class="md-ellipsis">
-      Inference Extension CRDs
+      Inference Extension
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Inference Extension">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-the-crds" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install the CRDs
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#install-the-extension" class="md-nav__link">
     <span class="md-ellipsis">
       Install the extension
@@ -354,8 +364,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#hook-in-the-extension" class="md-nav__link">
     <span class="md-ellipsis">
       Hook in the extension
@@ -363,13 +373,18 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#envoy-patch-policy" class="md-nav__link">
     <span class="md-ellipsis">
       Envoy Patch Policy
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -528,15 +543,25 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inference-extension-crds" class="md-nav__link">
+  <a href="#inference-extension" class="md-nav__link">
     <span class="md-ellipsis">
-      Inference Extension CRDs
+      Inference Extension
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Inference Extension">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-the-crds" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install the CRDs
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#install-the-extension" class="md-nav__link">
     <span class="md-ellipsis">
       Install the extension
@@ -544,8 +569,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#hook-in-the-extension" class="md-nav__link">
     <span class="md-ellipsis">
       Hook in the extension
@@ -553,13 +578,18 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#envoy-patch-policy" class="md-nav__link">
     <span class="md-ellipsis">
       Envoy Patch Policy
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -857,12 +887,13 @@ So I set my manifest to use just one replica.</p>
 <div class="language-shell highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>k<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cpu-deployment.yaml
 </span></code></pre></div>
 <p>Allow 5-10 minutes before the pod is up and running.</p>
-<h2 id="inference-extension-crds">Inference Extension CRDs</h2>
+<h2 id="inference-extension">Inference Extension</h2>
+<h3 id="install-the-crds">Install the CRDs</h3>
 <p>The inference extension provides two new resources: <a href="https://gateway-api-inference-extension.sigs.k8s.io/api-types/inferencepool/">InferencePool</a> and <a href="https://gateway-api-inference-extension.sigs.k8s.io/api-types/inferencemodel/">InferenceModel</a> for configuring different facets of routing to LLM backends.</p>
 <p>The cluster needs to know about these resources:</p>
 <div class="language-shell highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>k<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>crds/
 </span></code></pre></div>
-<h2 id="install-the-extension">Install the extension</h2>
+<h3 id="install-the-extension">Install the extension</h3>
 <div class="language-yaml highlight"><span class="filename">inference-extension.yaml</span><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nn">---</span>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
 </span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
@@ -973,7 +1004,7 @@ So I set my manifest to use just one replica.</p>
 </span></code></pre></div>
 <div class="language-shell highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>k<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>inference-extension.yaml
 </span></code></pre></div>
-<h2 id="hook-in-the-extension">Hook in the extension</h2>
+<h3 id="hook-in-the-extension">Hook in the extension</h3>
 <p>To hook the extension into the flow of requests through the gateway's <code>llm-gw</code> listener on port 8081, we define a ficticious backend and a route to it:</p>
 <div class="language-yaml highlight"><span class="filename">backend-and-route.yaml</span><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nn">---</span>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gateway.envoyproxy.io/v1alpha1</span>
@@ -1049,7 +1080,7 @@ So I set my manifest to use just one replica.</p>
 </ol>
 <div class="language-shell highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>k<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>extension-policy.yaml
 </span></code></pre></div>
-<h2 id="envoy-patch-policy">Envoy Patch Policy</h2>
+<h3 id="envoy-patch-policy">Envoy Patch Policy</h3>
 <p>The guide also applies an Envoy patch policy.</p>
 <div class="language-yaml highlight"><span class="filename">patch-policy.yaml</span><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nn">---</span>
 </span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gateway.envoyproxy.io/v1alpha1</span>
