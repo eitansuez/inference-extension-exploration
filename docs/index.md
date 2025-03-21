@@ -212,8 +212,6 @@ The model achieves the following:
 k apply -f inference-model.yaml
 ```
 
-![](images/inference-overview.svg)
-
 ## Test it
 
 Everything is now in place:  requests can be sent in to the gateway, the inference extension will be consulted, it will inspect the request, note the model `tweet-summary` in the request, which will match the above InferenceModel, resulting in the request being routed to the `tweet-summary-1` model running as part of the cpu deployment we deployed earlier.
@@ -236,3 +234,23 @@ curl $GW_IP:8081/v1/completions -H 'Content-Type: application/json' -d '{
   "temperature": 0
 }' | jq
 ```
+
+Consider playing with the InferenceModel:
+
+- Target the other model instead.
+- Make another curl request
+- Verify in the response that the request was handled by that model
+
+## Thoughts
+
+As I review this model diagram:
+
+![](images/inference-overview.svg)
+
+The configuration doesn't match this picture perfectly.
+
+Clearly the route and inference pool are associated to one another through the extension, which is not depicted above.
+
+In my opinion the extension ought to be transparent, and the inference resources attached directly to the route.
+
+Also the dichotomy of InferencePool and InferenceModel don't make very much sense to me, yet, perhaps due to lack of familiarity with this project.
