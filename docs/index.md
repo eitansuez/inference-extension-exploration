@@ -183,7 +183,7 @@ Now that the extension is in the path of requests, we need to give it the inform
 --8<-- "inference-pool.yaml"
 ```
 
-Thename of the pool is set to `vllm-llama2-7b`.
+The name of the pool is set to `vllm-llama2-7b`.
 
 The InferencePool resource appears to be concerned primarily with more practical aspects of how to route to the LLM workload:
 
