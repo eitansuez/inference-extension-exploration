@@ -824,7 +824,7 @@
 <p>The cpu deployment option uses a relatively small model:  <a href="https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct"><code>Qwen/Qwen2.5-1.5B-Instruct</code></a>.
 This model is not gated and so does not require a Hugging Face token.</p>
 <p>The container requires 12 cpus and 9Gi of memory (see the <code>resources</code> section).</p>
-<p>The perhaps important thing to note about the running container is that it supposedly configures two models, <code>tweet-summary-0</code> and <code>tweet-summary-0</code> through lora adapters that extend the base model.</p>
+<p>The perhaps important thing to note about the running container is that it supposedly configures two models, <code>tweet-summary-0</code> and <code>tweet-summary-1</code> through lora adapters that extend the base model.</p>
 <p>The default deployment sets 3 replicas which requires a lot of resources.
 So I set my manifest to use just one replica.</p>
 <div class="language-shell highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>k<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cpu-deployment.yaml
