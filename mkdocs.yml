@@ -1,5 +1,6 @@
 site_name: Learning the GW API Inference extension
-site_url: https://mydomain.org/
+site_url: https://eitansuez.github.io/inference-extension-exploration/
+repo_url: https://github.com/eitansuez/inference-extension-exploration
 theme:
   name: material
   features:

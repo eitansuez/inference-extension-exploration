@@ -218,7 +218,7 @@ Everything is now in place:  requests can be sent in to the gateway, the inferen
 
 I suspect that the name "llama2-7b" is an artifact of perhaps a prior attempt to make this exercise work with a different model.  The model was revised to Qwen-1.5B but the name of the deployment and associated labels were never updated to match?
 
-Capture the gateway ip address to the environment variable `GW_IP`:
+Capture the gateway IP address to the environment variable `GW_IP`:
 
 ```shell
 export GW_IP=$(kubectl get gtw inference-gateway -o jsonpath='{.status.addresses[0].value}')
@@ -233,6 +233,33 @@ curl $GW_IP:8081/v1/completions -H 'Content-Type: application/json' -d '{
   "max_tokens": 100,
   "temperature": 0
 }' | jq
+```
+
+Here is a sample response:
+
+```json
+{
+  "choices": [
+    {
+      "finish_reason": "length",
+      "index": 0,
+      "logprobs": null,
+      "prompt_logprobs": null,
+      "stop_reason": null,
+      "text": " Giants - 2019\n\nThe San Francisco Giants have been one of the most successful teams in Major League Baseball over the past few years, and they continue to be a force to be reckoned with. The team has won three World Series championships in the last five seasons, including their first title since 1954.\n\nIn 2019, the Giants continued their dominance by winning the National League West divisional title for the third time in four years. They finished the"
+    }
+  ],
+  "created": 1742577733,
+  "id": "cmpl-30ea8f02-2aa7-4648-bb28-efe88c43517c",
+  "model": "tweet-summary-1",
+  "object": "text_completion",
+  "usage": {
+    "completion_tokens": 100,
+    "prompt_tokens": 10,
+    "prompt_tokens_details": null,
+    "total_tokens": 110
+  }
+}
 ```
 
 Consider playing with the InferenceModel:
