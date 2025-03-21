@@ -99,7 +99,7 @@ This model is not gated and so does not require a Hugging Face token.
 
 The container requires 12 cpus and 9Gi of memory (see the `resources` section).
 
-The perhaps important thing to note about the running container is that it supposedly configures two models, `tweet-summary-0` and `tweet-summary-0` through lora adapters that extend the base model.
+The perhaps important thing to note about the running container is that it supposedly configures two models, `tweet-summary-0` and `tweet-summary-1` through lora adapters that extend the base model.
 
 The default deployment sets 3 replicas which requires a lot of resources.
 So I set my manifest to use just one replica.
