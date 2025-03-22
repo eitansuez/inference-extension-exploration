@@ -16,7 +16,7 @@ spec:
       terminationGracePeriodSeconds: 5  # Shorten to 5 seconds
       containers:
       - name: fake-llm
-        image: eitansuez/fake-llm:2.2
+        image: eitansuez/fake-llm:2.4
         ports:
         - containerPort: 8000
         resources:

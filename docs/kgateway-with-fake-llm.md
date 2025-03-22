@@ -1,7 +1,7 @@
 # Inference extension with kgateway, using a fake LLM
 
 This guide is similar to the lab that uses kgateway.
-The difference is its use of a fake for the LLM deployment, so you can experiment withe inference extension without the cpu and memory resources needed to actuall run an LLM.
+The difference is its use of a fake for the LLM deployment, so you can experiment with the inference extension without the cpu and memory resources needed to actuall run an LLM.
 
 Provision a Kubernetes cluster:
 
@@ -53,20 +53,20 @@ Above, note that the inference extension is enabled.
 ## Deploy a fake LLM worload
 
 
-```yaml title="kgateway/fake-llm.yaml"
---8<-- "kgateway/fake-llm.yaml"
+```yaml title="fakellm/fake-llm.yaml"
+--8<-- "fakellm/fake-llm.yaml"
 ```
 
 This fake llm is configured with the model name `fake-llm` and two alternative LoRA modules:  `fake-llm-lora-a` and `fake-llm-lora-b`.
 
 ```shell
-k apply -f kgateway/fake-llm.yaml
+k apply -f fakellm/fake-llm.yaml
 ```
 
 ## The InferencePool
 
-```yaml title="kgateway/fakellm-inferencepool.yaml"
---8<-- "kgateway/fakellm-inferencepool.yaml"
+```yaml title="fakellm/inferencepool.yaml"
+--8<-- "fakellm/inferencepool.yaml"
 ```
 
 The name of the pool is set to `fakellm-pool`.
@@ -77,52 +77,48 @@ The InferencePool resource appears to be concerned primarily with more practical
 1. How do I select or identify the workload (`selector`)
 
 ```shell
-k apply -f kgateway/fakellm-inferencepool.yaml
+k apply -f fakellm/inferencepool.yaml
 ```
 
 ## The InferenceModel
 
-```yaml title="kgateway/fakellm-inferencemodel.yaml"
---8<-- "kgateway/fakellm-inferencemodel.yaml"
+```yaml title="fakellm/inferencemodel.yaml"
+--8<-- "fakellm/inferencemodel.yaml"
 ```
 
 The model achieves the following:
 
 1. Any requests specifying the model `fake-llm` will match this inference model
-1. This model is marked with a `criticality` of Critical
-1. This model is associated with the above inference pool, meaning that matching requests will be routed to our cpu deployment
-1. Through `targetModels` we are configuring which of the two extension models ("fake-llm-lora-a" or "fake-llm-lora-b") to target, or what weight distributions to give to each.
+1. This model is marked with a `criticality` of `Critical`
+1. This model is associated with the above inference pool, meaning that matching requests will be routed to the fake llm deployment
+1. Through `targetModels` we are configuring which of the two extension models (`fake-llm-lora-a` or `fake-llm-lora-b`) to target, or what weight distributions to give to each.
 
 ```shell
-k apply -f kgateway/fakellm-inferencemodel.yaml
+k apply -f fakellm/inferencemodel.yaml
 ```
 
 ## Provision a Gateway
 
-```yaml title="kgateway/gateway.yaml"
---8<-- "kgateway/gateway.yaml"
+```yaml title="fakellm/gateway.yaml"
+--8<-- "fakellm/gateway.yaml"
 ```
 
 The configuration is straightforward: the `gatewayClassName` is set to `kgateway`.
 
-It's curious that two listeners are configured, presumably to demonstrate that you can segregate LLM requests from non-LLM requests.  In other words, dedicate a listener for LLM requests named `llm-gw`.
-
-The inference extension is already hooked up to the gateway.
-
 ```shell
-k apply -f kgateway/gateway.yaml
+k apply -f fakellm/gateway.yaml
 ```
 
 ## Configure the route
 
-```yaml title="kgateway/fakellm-route.yaml"
---8<-- "kgateway/fakellm-route.yaml"
+```yaml title="fakellm/route.yaml"
+--8<-- "fakellm/route.yaml"
 ```
 
 The route forwards requests to the inference pool directly by referencing it as a `backendRef`.
 
 ```shell
-k apply -f kgateway/fakellm-route.yaml
+k apply -f fakellm/route.yaml
 ```
 
 ## Test it
@@ -152,42 +148,28 @@ Here is a sample response:
 {
   "choices": [
     {
-      "finish_reason": "length",
+      "finish_reason": "stop",
       "index": 0,
       "logprobs": null,
-      "prompt_logprobs": null,
-      "stop_reason": null,
-      "text": " Giants - 2019\n\nThe San Francisco Giants have been one of the most successful teams in Major League Baseball over the past few years, and they continue to be a force to be reckoned with. The team has won three World Series championships in the last five seasons, including their first title since 1954.\n\nIn 2019, the Giants continued their dominance by winning the National League West divisional title for the third time in four years. They finished the"
+      "text": "This is fake LLM with LoRA-A. Greetings from module A!"
     }
   ],
-  "created": 1742577733,
-  "id": "cmpl-30ea8f02-2aa7-4648-bb28-efe88c43517c",
-  "model": "tweet-summary-1",
+  "created": 1742678062,
+  "id": "fake-123",
+  "model": "fake-llm-lora-a",
   "object": "text_completion",
   "usage": {
-    "completion_tokens": 100,
+    "completion_tokens": 10,
     "prompt_tokens": 10,
-    "prompt_tokens_details": null,
-    "total_tokens": 110
+    "total_tokens": 20
   }
 }
 ```
 
 Consider playing with the InferenceModel:
 
-- Target the other model instead.
-- Make another curl request
-- Verify in the response that the request was handled by that model
+- Target the `fake-llm-lora-b` model instead.
+- Make another `curl` request
+- Check the response body and cnofirm that the request was handled by that model
 
-## Thoughts
-
-This is much better than the previous guide.
-The extension is still there but no longer needs to be managed explicitly.
-
-As I review this model diagram:
-
-![](images/inference-overview.svg)
-
-The configuration matches this picture perfectly:  the route uses the InferencePool as a `backendRef`, which in turn acts as a proxy for the backing LLM workload.
-
-This redresses the issues I cited from the previous guide.
+You can also set a 50/50 weight distribution and call both models.

@@ -10,6 +10,4 @@ spec:
     name: fakellm-pool
   targetModels:
   - name: fake-llm-lora-a
-    weight: 50
-  - name: fake-llm-lora-b
-    weight: 50
+    weight: 100
