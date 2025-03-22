@@ -6,9 +6,9 @@ metadata:
 spec:
   gatewayClassName: kgateway
   listeners:
-    - name: http
-      protocol: HTTP
-      port: 8080
-    - name: llm-gw
-      protocol: HTTP
-      port: 8081
+  - name: http
+    protocol: HTTP
+    port: 8080
+  - name: llm-gw
+    protocol: HTTP
+    port: 8081
