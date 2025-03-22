@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fake-llm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fake-llm
+  template:
+    metadata:
+      labels:
+        app: fake-llm
+    spec:
+      terminationGracePeriodSeconds: 5  # Shorten to 5 seconds
+      containers:
+      - name: fake-llm
+        image: eitansuez/fake-llm:2.2
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          requests:
+            cpu: "0.2"
+            memory: "256Mi"

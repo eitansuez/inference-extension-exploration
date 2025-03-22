@@ -1,19 +1,9 @@
-# Using the Inference extension with kgateway
+# Inference extension with kgateway, using a fake LLM
 
-This guide is similar to the GW API inference extension guide that uses Envoy Gateway.
-This guide focuses on the same scenario, but running with [kgateway](https://kgateway.dev/) instead.
+This guide is similar to the lab that uses kgateway.
+The difference is its use of a fake for the LLM deployment, so you can experiment withe inference extension without the cpu and memory resources needed to actuall run an LLM.
 
-The idea is to setup in a Kubernetes cluster a mechanism to route traffic to backend LLMs.
-
-## Prerequisites
-
-- amd64 CPU architecture (required by vLLM).
-- Lots of CPU and RAM.
-- Tools:  kubectl, helm
-
-## A k8s cluster
-
-I chose k3d:
+Provision a Kubernetes cluster:
 
 ```shell
 k3d cluster create my-k8s-cluster \
@@ -60,37 +50,26 @@ helm upgrade --install kgateway \
 
 Above, note that the inference extension is enabled.
 
-## Deploy an LLM worload
+## Deploy a fake LLM worload
 
-The guide offers two options.  We opt for the cpu deployment option.
 
-```yaml title="kgateway/cpu-deployment.yaml"
---8<-- "kgateway/cpu-deployment.yaml"
+```yaml title="kgateway/fake-llm.yaml"
+--8<-- "kgateway/fake-llm.yaml"
 ```
 
-The cpu deployment option uses a relatively small model:  [`Qwen/Qwen2.5-1.5B-Instruct`](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct).
-This model is not gated and so does not require a Hugging Face token.
-
-The container requires 12 cpus and 9Gi of memory (see the `resources` section).
-
-The perhaps important thing to note about the running container is that it supposedly configures two models, `tweet-summary-0` and `tweet-summary-1` through lora adapters that extend the base model.
-
-The default deployment sets 3 replicas which requires a lot of resources.
-So I set my manifest to use just one replica.
+This fake llm is configured with the model name `fake-llm` and two alternative LoRA modules:  `fake-llm-lora-a` and `fake-llm-lora-b`.
 
 ```shell
-k apply -f kgateway/cpu-deployment.yaml
+k apply -f kgateway/fake-llm.yaml
 ```
-
-Allow 5-10 minutes before the pod is up and running.
 
 ## The InferencePool
 
-```yaml title="kgateway/inference-pool.yaml"
---8<-- "kgateway/inference-pool.yaml"
+```yaml title="kgateway/fakellm-inferencepool.yaml"
+--8<-- "kgateway/fakellm-inferencepool.yaml"
 ```
 
-The name of the pool is set to `qwen-pool`.
+The name of the pool is set to `fakellm-pool`.
 
 The InferencePool resource appears to be concerned primarily with more practical aspects of how to route to the LLM workload:
 
@@ -98,24 +77,24 @@ The InferencePool resource appears to be concerned primarily with more practical
 1. How do I select or identify the workload (`selector`)
 
 ```shell
-k apply -f kgateway/inference-pool.yaml
+k apply -f kgateway/fakellm-inferencepool.yaml
 ```
 
 ## The InferenceModel
 
-```yaml title="kgateway/inference-model.yaml"
---8<-- "kgateway/inference-model.yaml"
+```yaml title="kgateway/fakellm-inferencemodel.yaml"
+--8<-- "kgateway/fakellm-inferencemodel.yaml"
 ```
 
 The model achieves the following:
 
-1. Any requests specifying the model "tweet-summary" will match this inference model
+1. Any requests specifying the model `fake-llm` will match this inference model
 1. This model is marked with a `criticality` of Critical
 1. This model is associated with the above inference pool, meaning that matching requests will be routed to our cpu deployment
-1. Through `targetModels` we are configuring which of the two extension models ("tweet-summary-0" or "tweet-summary-1") to target, or what weight distributions to give to each.
+1. Through `targetModels` we are configuring which of the two extension models ("fake-llm-lora-a" or "fake-llm-lora-b") to target, or what weight distributions to give to each.
 
 ```shell
-k apply -f kgateway/inference-model.yaml
+k apply -f kgateway/fakellm-inferencemodel.yaml
 ```
 
 ## Provision a Gateway
@@ -136,14 +115,14 @@ k apply -f kgateway/gateway.yaml
 
 ## Configure the route
 
-```yaml title="kgateway/route.yaml"
---8<-- "kgateway/route.yaml"
+```yaml title="kgateway/fakellm-route.yaml"
+--8<-- "kgateway/fakellm-route.yaml"
 ```
 
 The route forwards requests to the inference pool directly by referencing it as a `backendRef`.
 
 ```shell
-k apply -f kgateway/route.yaml
+k apply -f kgateway/fakellm-route.yaml
 ```
 
 ## Test it
@@ -160,7 +139,7 @@ Send a request:
 
 ```shell
 curl $GW_IP:8081/v1/completions -H 'Content-Type: application/json' -d '{
-  "model": "tweet-summary",
+  "model": "fake-llm",
   "prompt": "Write as if you were a critic: San Francisco",
   "max_tokens": 100,
   "temperature": 0

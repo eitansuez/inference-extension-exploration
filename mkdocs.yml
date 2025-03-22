@@ -17,3 +17,7 @@ markdown_extensions:
     base_path:
     - artifacts
 - pymdownx.superfences
+nav:
+- eg.md
+- kgateway.md
+- kgateway-with-fake-llm.md
