@@ -2,14 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://eitansuez.github.io/inference-extension-exploration/</loc>
-         <lastmod>2025-03-21</lastmod>
+         <lastmod>2025-03-22</lastmod>
     </url>
     <url>
          <loc>https://eitansuez.github.io/inference-extension-exploration/eg/</loc>
-         <lastmod>2025-03-21</lastmod>
+         <lastmod>2025-03-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eitansuez.github.io/inference-extension-exploration/kgateway-with-fake-llm/</loc>
+         <lastmod>2025-03-22</lastmod>
     </url>
     <url>
          <loc>https://eitansuez.github.io/inference-extension-exploration/kgateway/</loc>
-         <lastmod>2025-03-21</lastmod>
+         <lastmod>2025-03-22</lastmod>
     </url>
 </urlset>
