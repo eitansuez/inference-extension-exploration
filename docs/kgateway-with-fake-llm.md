@@ -134,7 +134,7 @@ export GW_IP=$(kubectl get gtw inference-gateway -o jsonpath='{.status.addresses
 Send a request:
 
 ```shell
-curl $GW_IP:8081/v1/completions -H 'Content-Type: application/json' -d '{
+curl $GW_IP/v1/completions -H 'Content-Type: application/json' -d '{
   "model": "fake-llm",
   "prompt": "Write as if you were a critic: San Francisco",
   "max_tokens": 100,
