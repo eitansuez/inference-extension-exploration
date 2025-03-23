@@ -493,7 +493,7 @@
 
 <h1 id="inference-extension-with-kgateway-using-a-fake-llm">Inference extension with kgateway, using a fake LLM</h1>
 <p>This guide is similar to the lab that uses kgateway.
-The difference is its use of a fake for the LLM deployment, so you can experiment with the inference extension without the cpu and memory resources needed to actuall run an LLM.</p>
+The difference is its use of a fake for the LLM deployment, so you can experiment with the inference extension without the cpu and memory resources needed to actually run an LLM.</p>
 <p>Provision a Kubernetes cluster:</p>
 <div class="language-shell highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>k3d<span class="w"> </span>cluster<span class="w"> </span>create<span class="w"> </span>my-k8s-cluster<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span>--api-port<span class="w"> </span><span class="m">6443</span><span class="w"> </span><span class="se">\</span>
@@ -639,7 +639,7 @@ The difference is its use of a fake for the LLM deployment, so you can experimen
 <div class="language-shell highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>k<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>fakellm/route.yaml
 </span></code></pre></div>
 <h2 id="test-it">Test it</h2>
-<p>Everything is now in place:  requests can be sent in to the gateway, the inference extension will be consulted, it will inspect the request, note the model <code>tweet-summary</code> in the request, which will match the above InferenceModel, resulting in the request being routed to the <code>tweet-summary-1</code> model running as part of the cpu deployment we deployed earlier.</p>
+<p>Everything is now in place:  requests can be sent in to the gateway, the inference extension will be consulted, it will inspect the request, note the model <code>fake-llm</code> in the request, which will match the above InferenceModel, resulting in the request being routed to the <code>fake-llm-lora-a</code> model running as part of the cpu deployment we deployed earlier.</p>
 <p>Capture the gateway IP address to the environment variable <code>GW_IP</code>:</p>
 <div class="language-shell highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GW_IP</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>gtw<span class="w"> </span>inference-gateway<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.addresses[0].value}&#39;</span><span class="k">)</span>
 </span></code></pre></div>
