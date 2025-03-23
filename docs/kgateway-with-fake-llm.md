@@ -1,7 +1,7 @@
 # Inference extension with kgateway, using a fake LLM
 
 This guide is similar to the lab that uses kgateway.
-The difference is its use of a fake for the LLM deployment, so you can experiment with the inference extension without the cpu and memory resources needed to actuall run an LLM.
+The difference is its use of a fake for the LLM deployment, so you can experiment with the inference extension without the cpu and memory resources needed to actually run an LLM.
 
 Provision a Kubernetes cluster:
 
@@ -123,7 +123,7 @@ k apply -f fakellm/route.yaml
 
 ## Test it
 
-Everything is now in place:  requests can be sent in to the gateway, the inference extension will be consulted, it will inspect the request, note the model `tweet-summary` in the request, which will match the above InferenceModel, resulting in the request being routed to the `tweet-summary-1` model running as part of the cpu deployment we deployed earlier.
+Everything is now in place:  requests can be sent in to the gateway, the inference extension will be consulted, it will inspect the request, note the model `fake-llm` in the request, which will match the above InferenceModel, resulting in the request being routed to the `fake-llm-lora-a` model running as part of the cpu deployment we deployed earlier.
 
 Capture the gateway IP address to the environment variable `GW_IP`:
 
