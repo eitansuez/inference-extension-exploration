@@ -42,7 +42,7 @@ Install the kgateway CRDs:
 
 ```shell
 helm upgrade --install kgateway-crds \
-  https://github.com/danehans/toolbox/raw/refs/heads/main/charts/8836480ba3-kgateway-crds-1.0.1-dev.tgz \
+  oci://cr.kgateway.dev/kgateway-dev/charts/kgateway-crds \
   --version v2.0.0-main \
   --namespace kgateway-system --create-namespace
 ```
@@ -51,11 +51,10 @@ Install kgateway:
 
 ```shell
 helm upgrade --install kgateway \
-  https://github.com/danehans/toolbox/raw/refs/heads/main/charts/8836480ba3-kgateway-1.0.1-dev.tgz \
+  oci://cr.kgateway.dev/kgateway-dev/charts/kgateway \
   --version v2.0.0-main \
   --namespace kgateway-system --create-namespace \
-  --set inferenceExtension.enabled=true \
-  --set image.registry=danehans
+  --set inferenceExtension.enabled=true
 ```
 
 Above, note that the inference extension is enabled.
