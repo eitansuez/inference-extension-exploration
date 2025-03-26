@@ -44,7 +44,7 @@ helm upgrade --install kgateway \
   oci://cr.kgateway.dev/kgateway-dev/charts/kgateway \
   --version v2.0.0-main \
   --namespace kgateway-system --create-namespace \
-  --set inferenceExtension.enabled=true
+  --set inferenceExtension.enabled=true --set inferenceExtension.autoProvision=true
 ```
 
 Above, note that the inference extension is enabled.
