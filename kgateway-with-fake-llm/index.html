@@ -520,7 +520,7 @@ The difference is its use of a fake for the LLM deployment, so you can experimen
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>oci://cr.kgateway.dev/kgateway-dev/charts/kgateway<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--version<span class="w"> </span>v2.0.0-main<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>--namespace<span class="w"> </span>kgateway-system<span class="w"> </span>--create-namespace<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span>--set<span class="w"> </span>inferenceExtension.enabled<span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span>--set<span class="w"> </span>inferenceExtension.enabled<span class="o">=</span><span class="nb">true</span><span class="w"> </span>--set<span class="w"> </span>inferenceExtension.autoProvision<span class="o">=</span><span class="nb">true</span>
 </span></code></pre></div>
 <p>Above, note that the inference extension is enabled.</p>
 <h2 id="deploy-a-fake-llm-worload">Deploy a fake LLM worload</h2>
